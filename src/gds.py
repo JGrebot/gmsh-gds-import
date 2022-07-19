@@ -17,7 +17,92 @@ factory = model.occ
 GDS_already_read = []
 DATA = []
 
+def retrieveObjectInsideBox(x, y, z, dx, dy, dz, tol = 1.0e-3):
+   """
+   Function retrieving the 3D entities inside the box (even if the
+   entities boundaries are intersecting with the box's boundaries)
+
+   x          : x coordinate of the box's origin
+   y          : y coordinate of the box's origin
+   z          : z coordinate of the box's origin
+   dx         : Length of the box
+   dy         : Width of the box
+   dz         : Height of the box
+   tol        : Tolerance used to retrieve the entities with bounding boxes
+   """
+   list = np.array([])
+   top = np.array(model.getEntitiesInBoundingBox(x - tol,\
+                                                 y - tol,\
+                                                 z - tol,\
+                                                 x + dx + tol,\
+                                                 y + dy + tol,\
+                                                 z + dz - tol,\
+                                                 dim = 3))
+   if(top.size != 0):
+      list = np.concatenate((list, top[:,1]), axis = 0)
+   south = np.array(model.getEntitiesInBoundingBox(x - tol,\
+                                                   y + tol,\
+                                                   z - tol,\
+                                                   x + dx + tol,\
+                                                   y + dy + tol,\
+                                                   z + dz + tol,\
+                                                   dim = 3))
+   if(south.size != 0):
+      list = np.concatenate((list, south[:,1]), axis = 0)
+   east = np.array(model.getEntitiesInBoundingBox(x - tol,\
+                                                  y - tol,\
+                                                  z - tol,\
+                                                  x + dx - tol,\
+                                                  y + dy + tol,\
+                                                  z + dz + tol,\
+                                                  dim = 3))
+   if(east.size != 0):
+      list = np.concatenate((list, east[:,1]), axis = 0)
+   north = np.array(model.getEntitiesInBoundingBox(x - tol,\
+                                                   y - tol,\
+                                                   z - tol,\
+                                                   x + dx + tol,\
+                                                   y + dy - tol,\
+                                                   z + dz + tol,\
+                                                   dim = 3))
+   if(north.size != 0):
+      list = np.concatenate((list, north[:,1]), axis = 0)
+   west = np.array(model.getEntitiesInBoundingBox(x + tol,\
+                                                  y - tol,\
+                                                  z - tol,\
+                                                  x + dx + tol,\
+                                                  y + dy + tol,\
+                                                  z + dz + tol,\
+                                                  dim = 3))
+   if(west.size != 0):
+      list = np.concatenate((list, west[:,1]), axis = 0)
+   bot = np.array(model.getEntitiesInBoundingBox(x - tol,\
+                                                 y - tol,\
+                                                 z + tol,\
+                                                 x + dx + tol,\
+                                                 y + dy + tol,\
+                                                 z + dz + tol,\
+                                                 dim = 3))
+   if(bot.size != 0):
+      list = np.concatenate((list, bot[:,1]), axis = 0)
+   return(list)
+
+
 def retrieveVolumeBoxTag(x, y, z, dx, dy, dz, tol = 1.0e-3):
+   """
+   Function retrieving the tag of a 3D entity shaped like a box whose
+   dimensions are (dx, dy, dz). If they are any 3D entities contained
+   in the box, the function is only retrieving the tag of the box and
+   not the tags of smaller entities inside.
+
+   x          : x coordinate of the box's origin
+   y          : y coordinate of the box's origin
+   z          : z coordinate of the box's origin
+   dx         : Length of the box 
+   dy         : Width of the box
+   dz         : Height of the box
+   tol        : Tolerance used to retrieve the entities with bounding boxes
+   """
 
    #retrieve all the entities in the volume shaped by addBox(x - eps, ..., x + dx + eps, ...)
    volume_set = np.array(model.getEntitiesInBoundingBox(x - tol,\
