@@ -2,7 +2,7 @@
 
 
 ## About
-This repo allows to import .gds file inside a GMSH mesh. It uses the [gdspy](https://gdspy.readthedocs.io/en/stable/#) python library in order to read the gds file.
+This repo allows to import .gds file inside a GMSH mesh. It uses the [gdspy](https://gdspy.readthedocs.io/en/stable/#) python library in order to read the gds file. 
 
 ## Dependencies
 Dependencies are the following:
@@ -22,29 +22,29 @@ In order to run the test you must add the ./src folder to your PYTHONPATH.
 Type,
 
 ```python
-python3 test0_View.py
+python3 test/test0_View.py
 ```
-in order to visualize with python3-tk the input gds information. Basically you'll get:
+in order to visualize with python3-tk the input gds informations. Basically you'll get:
 
-[yep](readme-src/gds_info_test0.png)
+<img src="readme-src/gds_info_test0.png" width="650" height="450">
 
 #### Read 
 Type,
 
 ```python
-python3 test1_Read.py
+python3 test/test1_Read.py
 ```
-in order to display information shown on test0_View directly on the console.
+in order to display informations shown on test0_View directly on the console.
 
 #### Build 
 Type,
 
 ```python
-python3 test2_Build_extrude.py
+python3 test/test2_Build_extrude.py
 ```
 in order to actually build a basic mesh involving all polygons of layer 2, datatype 0.
 
 
-[yep](readme-src/gds_build_test2.png)
+<img src="readme-src/gds_build_test2.png" width="450" height="350">
 
 
